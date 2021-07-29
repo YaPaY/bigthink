@@ -60,6 +60,8 @@ const init = async () => {
   bigThinkAddon.registerActionHandler("catalog", async (input, ctx) => {
     console.log("catalog", input);
 
+    await ctx.requestCache([input.catalogId, input.search]);
+
     const { playlist } = await ctx
       .fetch(`https://content.jwplatform.com/v2/playlists/${input.catalogId}`)
       .then<PlaylistResponse>((resp) => resp.json());
