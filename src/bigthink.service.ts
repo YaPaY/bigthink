@@ -14,6 +14,7 @@ export interface PlaylistResponse {
     tracks: {
       file: string;
       kind: "captions" | "thumbnails";
+      label: string;
     }[];
   }[];
 }

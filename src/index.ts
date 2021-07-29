@@ -79,7 +79,18 @@ const init = async () => {
           images: {
             poster: _.images[_.images.length - 1].src,
           },
-          sources: cleanupSources(_.sources),
+          sources: cleanupSources(_.sources).map((sourceItem) =>
+            Object.assign(sourceItem, <Partial<Source>>{
+              subtitles: _.tracks
+                .filter((track) => track.kind === "captions")
+                .map((track) => ({
+                  type: "vtt",
+                  name: track.label,
+                  url: track.file,
+                  language: "en",
+                })),
+            })
+          ),
         };
       }),
     };
