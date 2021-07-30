@@ -12,13 +12,13 @@ const cleanupSources = (
     .filter((_) => {
       return _.label && typeRegex.test(_.type);
     })
+    .sort((a, b) => a.label.localeCompare(b.label))
     .map((_) => {
       return {
         url: _.file,
         name: _.label,
       };
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    });
 };
 
 const init = async () => {
