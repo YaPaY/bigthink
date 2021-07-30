@@ -12,7 +12,10 @@ const cleanupSources = (
     .filter((_) => {
       return _.label && typeRegex.test(_.type);
     })
-    .sort((a, b) => a.label.localeCompare(b.label))
+    .sort((a, b) => {
+      // a.label.localeCompare(b.label)
+      return parseInt(a.label) - parseInt(b.label);
+    })
     .map((_) => {
       return {
         url: _.file,
