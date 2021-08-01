@@ -75,29 +75,35 @@ const init = async () => {
         displayName: true,
         imageShape: "landscape",
       },
-      items: playlist.map((_) => {
-        return {
-          type: "movie",
-          ids: { id: _.mediaid },
-          name: _.title,
-          description: _.description,
-          images: {
-            poster: _.images[_.images.length - 1].src,
-          },
-          sources: cleanupSources(_.sources).map((sourceItem) =>
-            Object.assign(sourceItem, <Partial<Source>>{
-              subtitles: _.tracks
-                .filter((track) => track.kind === "captions")
-                .map((track) => ({
-                  type: "vtt",
-                  name: track.label,
-                  url: track.file,
-                  language: "en",
-                })),
-            })
-          ),
-        };
-      }),
+      items: playlist
+        .filter((_) =>
+          input.search
+            ? _.title.toLowerCase().includes(input.search.toLowerCase())
+            : true
+        )
+        .map((_) => {
+          return {
+            type: "movie",
+            ids: { id: _.mediaid },
+            name: _.title,
+            description: _.description,
+            images: {
+              poster: _.images[_.images.length - 1].src,
+            },
+            sources: cleanupSources(_.sources).map((sourceItem) =>
+              Object.assign(sourceItem, <Partial<Source>>{
+                subtitles: _.tracks
+                  .filter((track) => track.kind === "captions")
+                  .map((track) => ({
+                    type: "vtt",
+                    name: track.label,
+                    url: track.file,
+                    language: "en",
+                  })),
+              })
+            ),
+          };
+        }),
     };
   });
 
